@@ -127,3 +127,7 @@ def test_config_can_have_types():
     c = Config(d, typed=True)
     with pytest.raises(TypeError):
         c.option1 = "Hello"
+
+
+# TODO: Integration von configparser
+# TODO: Vererbung von protected und typed an split_sections
