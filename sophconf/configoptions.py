@@ -12,7 +12,7 @@ Traceback (most recent call last):
   File "<input>", line 1, in <module>
 AttributeError: 'Config' object has no attribute 'verbose'
 
->>> c._create_option(name='verbose', value=False)
+>>> c._create_option(name='verbose', _value=False)
 >>> c.verbose
 False
 >>> c.verbose = True
@@ -26,6 +26,25 @@ Created on Jan 29, 2017
 
 @author: malte
 '''
+
+
+class Option:
+    def __init__(self, name=None, value=None, typ=str):
+        self.name = name
+        # interpret None and other garbage to mean no type conversion and no type check
+        self.typ = typ or (lambda x: x)
+        self._value = self.typ(value)
+
+    def __call__(self):
+        return self._value
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, new_value):
+        self._value = self.typ(new_value)
 
 
 class Config:
