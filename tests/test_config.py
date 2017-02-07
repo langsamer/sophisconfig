@@ -93,7 +93,7 @@ def test_nonexistent_option_raises_keyerror():
     d = {'option1': 99}
     c = Config(d)
     with pytest.raises(KeyError) as exc:
-        x = c.option2
+        _ = c.option2
         assert 'option2' in str(exc)
 
 
@@ -102,7 +102,7 @@ def test_nonexistent_section_raises_keyerror():
     d = {'option1': 99}
     c = Config(d)
     with pytest.raises(KeyError) as exc:
-        x = c.section2.option3
+        _ = c.section2.option3
         assert 'section2' in str(exc)
 
 
@@ -127,6 +127,15 @@ def test_config_can_have_types():
     c = Config(d, typed=True)
     with pytest.raises(TypeError):
         c.option1 = "Hello"
+
+
+@pytest.mark.skip
+def test_config_possible_types_int():
+    """if you create your Config object with typed=True, it will require each option
+    update to match the original type of the option"""
+    d = {'option1': 99}
+    c = Config(d, typed=True)
+    assert c.option1['type'] == int
 
 
 # TODO: Integration von configparser
